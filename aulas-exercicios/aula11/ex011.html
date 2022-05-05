@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfandega</title>
+</head>
+<body>
+    <h1>Verificar se é Estrangeiro</h1>
+    País de origem: <input type="text" name="txtpais" id="txtpais">
+    <input type="button" value="Verificar" id="btnpais" onclick="verificar()">
+    <div id="res"></div>
+
+    <script>
+        function verificar(){
+            var txtv = document.querySelector('input#txtpais')
+            var r = document.querySelector('div#res')
+            r.innerHTML = `<p>Você nasceu no(a) <strong>${txtv.value}</strong><p>`
+            if (txtv.value == 'Brasil') {
+                r.innerHTML += `<p>Você é <strong>Brasileiro(a)</strong></p>`
+            } else {
+                r.innerHTML += `<p>Você é <strong>Estrangeiro(a)</strong></p>`
+            }
+        }
+    </script>
+</body>
+</html>
