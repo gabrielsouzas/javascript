@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This</title>
+</head>
+<body>
+    <h1>Dominando o “this” em JavaScript</h1>
+    <p>
+        Em JavaScript, usa-se this de forma semelhante ao uso de pronomes em linguagens naturais, como o inglês ou francês. Escreve-se: “João está correndo rápido porque ele está tentando pegar o trem”. Note o uso do pronome “ele”. Poderia se ter escrito: “João está correndo rápido porque João está tentando pegar o trem”. Não se reutiliza “João” dessa maneira, pois se assim fosse, nossa família, amigos e colegas nos abandonariam… De uma maneira graciosamente semelhante, em JavaScript se usa a palavra-chave this como um atalho, um referente; ou seja, o sujeito no contexto ou o sujeito do código em execução.
+    </p>
+    <p>Exemplo: </p>
+    <pre>
+        <code>
+            var person = {
+                firstName : "Penelope",
+                lastName  : "Barrymore",
+                fullName  : function() {
+                    // Notou o uso do "this" tal como se usou "ele" no exemplo da frase anterior?
+                    console.log( this.firstName + ' ' + this.lastName );
+        
+                    // Também poderia se ter escrito:
+                    console.log( person.firstName + ' ' + person.lastName );
+                }
+            }
+        </code>
+    </pre>
+    <p>
+        Se se usa person.firstName e person.lastName, tal como no último exemplo, o código se torna ambíguo. Considere que poderia haver outra variável global (você estando ciente dela ou não) com o nome “person”. Em seguida, as referências a person.firstName poderiam tentar acessar a propriedade firstName da variável global person e isso poderia levar a erros difíceis de serem depurados. Portanto, usa-se a palavra-chave this não apenas para fins “estéticos” (isto é, como um referente), mas, também, para fins de precisão. Seu uso realmente torna o código mais inequívoco, assim como o pronome “ele” tornou a frase mais clara, informando que se estava referindo ao João específico do início da frase.
+    </p>
+
+    <script>
+        
+        // Exemplo do uso de this usando um objeto
+        var person = {
+            firstName : "Penelope",
+            lastName  : "Barrymore",
+            fullName  : function() {
+                // Notou o uso do "this" tal como se usou "ele" no exemplo da frase anterior?
+                console.log( this.firstName + ' ' + this.lastName );
+        
+                // Também poderia se ter escrito:
+                console.log( person.firstName + ' ' + person.lastName );
+            }
+        }
+
+        // Exemplo do uso de this em escopo global
+        var firstName = 'Peter',
+            lastName  = 'Ally';
+
+        function showFullName () {
+            // "this" dentro dessa função terá o valor do objeto "window" porque a função "showFullName"
+            // é definida no escopo global, assim como "firstName" and "lastName​".
+            console.log( this.firstName + ' ' + this.lastName );
+        }
+
+        var person2 = {
+            firstName    : "Penelope",
+            lastName     : "Barrymore",
+            showFullName : function() {
+                // "this" se refere ao objeto "person", já que a função "showFullName" será invocada 
+                // pelo objeto "person".
+                console.log( this.firstName + ' ' + this.lastName );
+            }
+        }
+
+        showFullName(); // Peter Ally​
+        
+        // "window" é o objeto em que todas as variáveis globais e funções são definidas, portanto:
+        window.showFullName(); // Peter Ally​
+        
+        // "this" dentro do método "showFullName", que é definido dentro do objeto "person", ainda se refere 
+        // ao objeto "person", então:
+        person2.showFullName(); // Penelope Barrymore
+
+        // Exemplo de aplicação do this em outro objeto sem a função que usa o this
+        // O "contexto", quando invoca "showFullName", é o objeto "person", quando se invoca o método 
+        // "showFullName" no objeto "person" e o uso de "this" dentro do método "showFullName" tem 
+        // o valor do objeto "person".
+        person2.showFullName(); // Penelope Barrymore​
+    
+        // Se se invoca "showFullName" em um objeto diferente:
+        var anotherPerson = {
+            firstName : "Rohit",
+            lastName  : "Khan"
+        };
+        
+        // É possível usar o método "apply" para estabelecer o valor de "this" mais explicitamente.
+        // "this" pega o valor de qualquer objeto que invoca "this", então:
+        person2.showFullName.apply( anotherPerson ); // Rohit Khan​
+        
+        // Então, o contexto é agora "anotherPerson" porque "anotherPerson" invocou 
+        // person.showFullName() ao usar apply().
+
+    </script>
+</body>
+</html>
